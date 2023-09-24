@@ -31,8 +31,7 @@ for i in range(10, 10020, 10):
 
 A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(worstTime.values()))[:, np.newaxis]
-alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(worstTime.values()))) # Я без понятия source: https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html
-print(alpha)
+alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(worstTime.values()))) # Взято из книги "Python Programming And Numerical Methods: A Guide For Engineers And Scientists": https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html
 
 plt.figure(1)
 plt.xlabel('Количество элементов в массиве')
@@ -45,7 +44,6 @@ plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
 A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(medianTime.values()))[:, np.newaxis]
 alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(medianTime.values())))
-print(alpha)
 
 plt.figure(2)
 plt.xlabel('Количество элементов в массиве')
@@ -54,5 +52,8 @@ plt.title('Зависимость времени поиска элемента �
 plt.scatter(GraphStuff, medianTime.values(), s=5)
 plt.grid(False)
 plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
+
+print('Worst time correlation', np.corrcoef(GraphStuff, list(worstTime.values()))[0, 1])
+print('Median time correlation', np.corrcoef(GraphStuff, list(medianTime.values()))[0, 1])
 
 plt.show()
