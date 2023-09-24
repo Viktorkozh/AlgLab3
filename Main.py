@@ -6,7 +6,9 @@ import numpy as np
 a = {}
 worstTime = {}
 medianTime = {}
-GraphStuff = [i for i in range(10, 20020, 10)]
+GraphStuff = [i for i in range(10, 10020, 10)]
+StuffForLsmWorst = {}
+StuffForLsmMedian = {}
 
 def find(n):
     for i in range(len(a)):
@@ -19,44 +21,31 @@ def fillArr(numOfEl):
     for i in range(numOfEl):
         a[i] = random.randint(0, 1000000)
 
-def least_squares(X, Y):
-    # Calculate the necessary sums
-    n = len(X)
-    sum_x = sum(X)
-    sum_y = sum(Y)
-    sum_x_squared = sum(x ** 2 for x in X)
-    sum_xy = sum(x * y for x, y in zip(X, Y))
-    
-    # Calculate the coefficients (slope and intercept) for the linear equation
-    slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x_squared - sum_x ** 2)
-    intercept = (sum_y - slope * sum_x) / n
-    
-    return slope, intercept
-
-for i in range(10, 20020, 10):
+for i in range(10, 10020, 10):
     fillArr(i)
     worstTime[i] = (timeit.timeit(lambda:find(10000000), number = 10)) / 10
 
-for i in range(10, 20020, 10):
+for i in range(10, 10020, 10):
     fillArr(i)
     medianTime[i] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 1)
 
-# Convert the dictionary values to lists for regression analysis
-graph_stuff_list = list(GraphStuff)
-worst_time_list = list(worstTime.values())
-median_time_list = list(medianTime.values())
-
-# Perform linear regression
-worst_slope, worst_intercept = least_squares(graph_stuff_list, worst_time_list)
-median_slope, median_intercept = least_squares(graph_stuff_list, median_time_list)
+A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
+y = np.array(list(worstTime.values()))[:, np.newaxis]
+alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(worstTime.values()))) # Я без понятия source: https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html
+print(alpha)
 
 plt.figure(1)
 plt.xlabel('Количество элементов в массиве')
 plt.ylabel('Среднее время выполнения (секунды)')
 plt.title('Зависимость времени поиска элемента от размера массива\n(Худший случай)')
 plt.scatter(GraphStuff, worstTime.values(), s=5)
-plt.plot(graph_stuff_list, [worst_slope * x + worst_intercept for x in graph_stuff_list], label="Worst Case Regression", color='red')
 plt.grid(False)
+plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
+
+A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
+y = np.array(list(medianTime.values()))[:, np.newaxis]
+alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(medianTime.values())))
+print(alpha)
 
 plt.figure(2)
 plt.xlabel('Количество элементов в массиве')
@@ -64,6 +53,6 @@ plt.ylabel('Среднее время выполнения (секунды)')
 plt.title('Зависимость времени поиска элемента от размера массива\n(Средний случай)')
 plt.scatter(GraphStuff, medianTime.values(), s=5)
 plt.grid(False)
-plt.plot(graph_stuff_list, [median_slope * x + median_intercept for x in graph_stuff_list], label="Median Case Regression", color='red')
+plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
 
 plt.show()
