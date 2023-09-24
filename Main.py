@@ -27,16 +27,12 @@ for i in range(10, 10020, 10):
     fillArr(i)
     medianTime[i] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 1)
 
-#print('Worst time correlation', correlation_coefficient = np.corrcoef(GraphStuff, worstTime.values())[0, 1])
-#print('Median time correlation', correlation_coefficient = np.corrcoef(GraphStuff, medianTime.values())[0, 1])
-
 plt.figure(1)
 plt.xlabel('Количество элементов в массиве')
 plt.ylabel('Среднее время выполнения (секунды)')
 plt.title('Зависимость времени поиска элемента от размера массива')
 plt.scatter(GraphStuff, worstTime.values(), s=5)
 plt.grid(False)
-plt.show()
 
 plt.figure(2)
 plt.xlabel('Количество элементов в массиве')
