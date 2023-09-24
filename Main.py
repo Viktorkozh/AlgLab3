@@ -29,11 +29,8 @@ print(worstTime)
 
 j = 0
 for i in range(10, 10020, 10):
-    med = 0
     fillArr(i)
-    for h in range(100):
-        med += timeit.timeit(lambda:find(a[int(random.randint(i - 1 // 2 - int(i * 0.3), i // 2 + int(i * 0.3)))]), number = 1)
-    medianTime[j] = med / 100
+    medianTime[j] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 1)
     j += 1
 
 print('Median:\n', medianTime)
