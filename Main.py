@@ -6,7 +6,7 @@ import numpy as np
 a = {}
 worstTime = {}
 medianTime = {}
-GraphStuff = [i for i in range(10, 10020, 10)]
+GraphStuff = [i for i in range(10, 10010, 10)]
 StuffForLsmWorst = {}
 StuffForLsmMedian = {}
 
@@ -21,19 +21,19 @@ def fillArr(numOfEl):
     for i in range(numOfEl):
         a[i] = random.randint(0, 1000000)
 
-for i in range(10, 10020, 10):
+for i in range(10, 10010, 10):
     fillArr(i)
-    worstTime[i] = (timeit.timeit(lambda:find(10000000), number = 10)) / 10
+    worstTime[i] = (timeit.timeit(lambda:find(10000000), number = 100)) / 100
 
-for i in range(10, 10020, 10):
+for i in range(10, 10010, 10):
     fillArr(i)
-    medianTime[i] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 1)
+    medianTime[i] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 100) / 100
 
 A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(worstTime.values()))[:, np.newaxis]
 alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(worstTime.values()))) # Взято из книги "Python Programming And Numerical Methods: A Guide For Engineers And Scientists": https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html
 
-plt.figure(1)
+plt.figure(1).set_figwidth(8)
 plt.xlabel('Количество элементов в массиве')
 plt.ylabel('Среднее время выполнения (секунды)')
 plt.title('Зависимость времени поиска элемента от размера массива\n(Худший случай)')
@@ -45,7 +45,7 @@ A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(medianTime.values()))[:, np.newaxis]
 alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(medianTime.values())))
 
-plt.figure(2)
+plt.figure(2).set_figwidth(8)
 plt.xlabel('Количество элементов в массиве')
 plt.ylabel('Среднее время выполнения (секунды)')
 plt.title('Зависимость времени поиска элемента от размера массива\n(Средний случай)')
