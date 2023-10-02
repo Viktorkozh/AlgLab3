@@ -27,7 +27,8 @@ for i in range(10, 10010, 10):
 
 for i in range(10, 10010, 10):
     fillArr(i)
-    medianTime[i] = timeit.timeit(lambda:find(a[int(random.randint(1, i - 1))]), number = 100) / 100
+    t = int(random.randint(1, i - 1))
+    medianTime[i] = timeit.timeit(lambda:find(a[t]), number = 100) / 100
 
 A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(worstTime.values()))[:, np.newaxis]
