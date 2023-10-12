@@ -42,6 +42,10 @@ plt.scatter(GraphStuff, worstTime.values(), s=5)
 plt.grid(False)
 plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
 
+formatted_alpha = [format(a, '.10f') for a in alpha]
+print('Коэффициенты прямой худшего случая: a =', formatted_alpha[0], 'b =', formatted_alpha[1])
+print('Worst time correlation', np.corrcoef(GraphStuff, list(worstTime.values()))[0, 1])
+
 A = np.vstack([GraphStuff, np.ones(len(GraphStuff))]).T
 y = np.array(list(medianTime.values()))[:, np.newaxis]
 alpha = np.dot((np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)),np.array(list(medianTime.values())))
@@ -54,7 +58,8 @@ plt.scatter(GraphStuff, medianTime.values(), s=5)
 plt.grid(False)
 plt.plot(GraphStuff, alpha[0]*np.array(list(GraphStuff)) + alpha[1], 'r')
 
-print('Worst time correlation', np.corrcoef(GraphStuff, list(worstTime.values()))[0, 1])
+formatted_alpha = [format(a, '.10f') for a in alpha]
+print('Коэффициенты прямой среднего случая: a =', formatted_alpha[0], 'b =', formatted_alpha[1])
 print('Median time correlation', np.corrcoef(GraphStuff, list(medianTime.values()))[0, 1])
 
 plt.show()
