@@ -78,7 +78,8 @@ print(
     formatted_alpha[1],
 )
 print(
-    "Median time correlation", np.corrcoef(GraphStuff, list(medianTime.values()))[0, 1]
+    "Median time correlation", 
+    np.corrcoef(GraphStuff, list(medianTime.values()))[0, 1]
 )
 
 plt.show()
