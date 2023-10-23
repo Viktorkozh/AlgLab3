@@ -7,8 +7,6 @@ a = {}
 worstTime = {}
 medianTime = {}
 GraphStuff = [i for i in range(10, 10010, 10)]
-StuffForLsmWorst = {}
-StuffForLsmMedian = {}
 
 
 def find(n):
